@@ -47,10 +47,12 @@ class CartsController < ApplicationController
   def checkout
     @step = params[:step].to_i
     case @step
+    when 6
+      handle_process_order
     when 5
-#      handle_process_order
+      handle_confirmation
     when 4
-      handle_confirmation_page
+      handle_payment
     when 3
       handle_alternate_shipping_address
     when 2
@@ -123,9 +125,9 @@ class CartsController < ApplicationController
   protected
   #Create a person associated to user and cart, then show form for user to enter billing details
   def handle_billing_information #case 2
-    @person = Ansuz::NFine::Person.new(:user_id => current_user.id)
-    @cart.person = @person
-    @cart.save
+    @person = Ansuz::NFine::Person.find_or_create_by_cart_id(@cart.id)
+    @person.user_id = @cart.user_id
+    @person.save
     @address = Ansuz::NFine::Address.new
     render :action => 'checkout_billing_information'
   end
@@ -147,23 +149,35 @@ class CartsController < ApplicationController
       @shipping_address.person = @cart.person
       @shipping_address.cart = @cart
       @shipping_address.save
-      handle_confirmation_page
+      handle_payment
     else
       @shipping_address = Ansuz::NFine::Address.new
       render :action => 'checkout_alternate_shipping_address'
     end
   end
 
-  def handle_process_order
-    process_order = case RAILS_ENV
-                    when 'development'
-                      lambda{@cart.order!}
-                    else
-                      lambda{@cart.order_and(:purchase, :credit_card => @active_merchant_credit_card, :billing_address => @billing_address_hash)}
-                    end
+  def handle_process_order #case 6
+#    process_order = case RAILS_ENV
+#                    when 'development'
+#                      lambda{@cart.order!}
+#                    else
+#                      lambda{@cart.order_and(:purchase, :credit_card => @active_merchant_credit_card, :billing_address => @billing_address_hash)}
+#                    end
+#    if process_order.call
+#      cookies[:cart] = nil
+#      @step = 99
+#      @cart.reload
+#      @cart.save
+#      render :action => 'checkout_success'
+#    else
+#      if @cart.response && @cart.response.params
+#        flash.now[:error] = @cart.response.params["response_reason_text"]
+#      end
+    #      render :action => 'checkout_payment'
+    #    end
+    process_order = lambda{@cart.order_and(:purchase, :credit_card => @active_merchant_credit_card, :billing_address => @cart.billing_address)}
+
     if process_order.call
-      cookies[:cart] = nil
-      @step = 99
       @cart.reload
       @cart.save
       render :action => 'checkout_success'
@@ -175,21 +189,29 @@ class CartsController < ApplicationController
     end
   end
 
-  def handle_confirmation_page
-    if params[:shipping_address]
-      @shipping_address = Ansuz::NFine::Address.new(params[:shipping_address])
-      @shipping_address.person = @cart.person
-      @shipping_address.cart = @cart
-      @shipping_address.save
-    end
-    if @cart.person
-      @active_merchant_credit_card.first_name = @cart.person.first_name
-      @active_merchant_credit_card.last_name = @cart.person.last_name
-    end
+  def handle_confirmation #case 5
+    @active_merchant_credit_card = ActiveMerchant::Billing::CreditCard.new(params[:active_merchant_credit_card])
+    @active_merchant_credit_card.first_name = @cart.person.first_name
+    @active_merchant_credit_card.last_name = @cart.person.last_name
     if @active_merchant_credit_card.valid?
       render :action => 'checkout_confirm'
     else
       render :action => 'checkout_payment'
     end
   end
+
+
+  def handle_payment #case 4
+    if params[:shipping_address]
+      @shipping_address = Ansuz::NFine::Address.new(params[:shipping_address])
+      @shipping_address.address_type = "Shipping"
+      @shipping_address.person = @cart.person
+      @shipping_address.cart = @cart
+      @shipping_address.save
+    end
+    @billing_address = @cart.billing_address
+    render :action => 'checkout_payment', :locals => {:initial_payment_view => true}
+  end
+
+
 end

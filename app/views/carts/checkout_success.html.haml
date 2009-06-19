@@ -1,17 +1,11 @@
-= stylesheet_link_tag "blueprint/success.css", :media => "print"
-= render :partial => 'checkout_header'
 - shipping_address = @cart.shipping_address
 - billing_address = @cart.billing_address
-%h2.conf-header Thank you for ordering from Sport Graphics.
+%h2.conf-header Thank you for ordering 
 %p.print-message 
-  Please print this page for your records. An email confirmation will be sent to 
-  - if shipping_address
-    = shipping_address.email
+  Please print this page for your records.
 #summary
   #cart
     %h3.cart-head
-      YOUR ORDER NUMBER IS
-      = " ##{@cart.order_number}"
     - if @cart.line_items.any?
       .clear
       %table.cart
@@ -28,10 +22,10 @@
           %tr
             %td
               - if shipping_address
-                = render :partial => 'shared/address', :object => shipping_address
+                = render :partial => 'address', :object => shipping_address
             %td
               - if billing_address
-                = render :partial => 'shared/address', :object => billing_address
+                = render :partial => 'address', :object => billing_address
             %td
               = @active_merchant_credit_card.type.capitalize
               %br
@@ -50,30 +44,6 @@
           - else
             %p
               Your cart is currently empty.  
-      %h3.cart-head
-        SHIPPING METHOD
-      %table.cart
-        %tbody
-          %tr
-            %td{ :rowspan => '2', :class => 'info-data'}
-              %h4.style-label
-                Shipping To:
-              %h5
-                = @cart.shipping_address.country
-              %br.clear
-              %h4.style-label
-                Method:
-              %ul.shipping-select
-                %li
-                  %span
-                    = Cart::SHIPPING_LOOKUP[@cart.shipping_method]
-                  %br.clear
-          %tr
-            %td.shipping-sub{ :rowspan => 2 }
-              Shipping
-              #shipping-rate
-                = number_to_currency @cart.shipping_rate
-      .shipping-grand
         GRAND TOTAL
         #grand-total
           = number_to_currency @cart.total

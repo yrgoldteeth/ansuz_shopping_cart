@@ -2,7 +2,9 @@ module Ansuz
   module NFine
     class Cart < ActiveRecord::Base
 
-
+      BILLING_GATEWAY = ActiveMerchant::Billing::Base.gateway(:braintree).new(
+                          :login => 'testapi',
+                          :password => 'password1')
       CREDIT_CARD_TYPES   = ["Visa", "Mastercard", "Discover", "American Express"]
       MONTHS              = [
         ["January", "01"], ["February", "02"], ["March", "03"],
@@ -114,7 +116,6 @@ module Ansuz
             transaction_options = {
               :address         => billing_address,
               :billing_address => billing_address,
-              :order_id        => invoice_number
             }
 
             if credit_card.valid?

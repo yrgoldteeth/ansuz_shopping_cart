@@ -3,22 +3,19 @@
   .sub-head
     %h5
       CREDIT CARD BILLING ADDRESS
-    %h5
-      COUPON OR PROMOTIONAL CODE
     .clear
   .address-block
     .checkout_transition_2
     - billing_address = @cart.billing_address
     %span.internal-height
       = render :partial => 'address', :object => billing_address
-      .change_info
-        = link_to "Change Billing Address", { :controller => 'carts', :action => 'checkout', :step => 3 }
   .clear
   .sub-head
     %h5
       ENTER A CREDIT CARD
     .clear
-  = error_messages_for :active_merchant_credit_card
+  - if params[:initial_payment_view]
+    = error_messages_for :active_merchant_credit_card
   = error_messages_for :cart
   - form_for :billing, @billing_address, :url => { } do |f|
     - fields_for :active_merchant_credit_card, @active_merchant_credit_card do |c|
@@ -52,6 +49,6 @@
         %br
     .bottom-billing
       = hidden_field_tag(:step, 5)
-      = image_submit_tag 'continue-checkout.png', :class => 'fright custom-buttons'
+      = submit_tag 'Submit'
       %br.clear
 .clear

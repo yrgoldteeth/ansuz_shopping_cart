@@ -1,0 +1,16 @@
+= address.name
+%br
+- unless address.company_name.blank?
+  = address.company_name
+  %br
+= address.line1
+%br
+- unless address.line2.blank?
+  = address.line2
+  %br
+= address.city
+= address.state_province
+= address.zip_postal
+%br
+- unless address.country.blank?
+  = address.country

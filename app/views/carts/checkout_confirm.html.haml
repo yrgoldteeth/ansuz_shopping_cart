@@ -22,13 +22,9 @@
         %td
           - if shipping_address
             = render :partial => 'address', :object => shipping_address
-            .change_info
-              = link_to "Change Shipping Address", { :controller => 'carts', :action => 'checkout', :step => 4 }
         %td
           - if billing_address
             = render :partial => 'address', :object => billing_address
-            .change_info
-              = link_to "Change Billing Address", { :controller => 'carts', :action => 'checkout', :step => 3 }
         %td
           = @active_merchant_credit_card.type.capitalize
           %br
@@ -50,24 +46,6 @@
         %p
           Your cart is currently empty.  
   %h3.cart-head
-    SHIPPING METHOD
-  %table.cart
-    %tbody
-      %tr
-        %td{ :rowspan => '2', :class => 'info-data'}
-          %h4.style-label
-            Shipping To:
-          %h5
-            = @cart.shipping_address.country
-          %br.clear
-          %h4.style-label
-            Method:
-          = link_to "Edit Shipping Method", { :controller => 'carts', :action => 'checkout', :step => 3 }
-      %tr
-        %td.shipping-sub{ :rowspan => 2 }
-          Shipping
-          %span#shipping-rate
-  .shipping-grand
     GRAND TOTAL
     %span#grand-total
       = number_to_currency @cart.total
