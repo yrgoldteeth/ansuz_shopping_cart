@@ -4,7 +4,7 @@
     = hidden_field_tag('quantity_line_item_id[]', line_item.id) 
     = text_field_tag('quantity[]', line_item.quantity, :size => 2, :class => 'smalltext')
     = hidden_field_tag 'form_action', 'Update Quantity'
-    = image_submit_tag famfamfam_icon_path('basket_edit'), :name => 'submit', :value => "Update Quantity"
+    = submit_tag 'Update Quantity'
 %td
   = line_item.product.category.name
 %td
@@ -15,5 +15,5 @@
   - form_tag cart_path, :method => :put do
     = hidden_field_tag("select_#{line_item.id}")
     = hidden_field_tag 'form_action', 'Remove Selected'
-    = image_submit_tag famfamfam_icon_path('basket_delete'), :name => 'submit', :value => "Remove Selected"
+    = submit_tag 'Remove'
 %td

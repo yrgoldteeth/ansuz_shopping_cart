@@ -1,11 +1,8 @@
-require 'aasm'
 module Ansuz
   module NFine
     class Cart < ActiveRecord::Base
 
-      include AASM
 
-      ORDER_NUMBER_OFFSET = 24998
       CREDIT_CARD_TYPES   = ["Visa", "Mastercard", "Discover", "American Express"]
       MONTHS              = [
         ["January", "01"], ["February", "02"], ["March", "03"],
@@ -14,27 +11,6 @@ module Ansuz
         ["November", "11"], ["December", "12"]
       ]
       YEARS               = (2008..2020)
-
-      aasm_column :status
-      aasm_initial_state :pending
-
-      aasm_state :pending
-      aasm_state :shipped
-      aasm_state :canceled
-
-      aasm_event :ship do
-        transitions :to => :shipped, :from => [:pending]
-      end
-
-      aasm_event :duplicate do
-        # aasm isn't firing the on_transition for cancel!, so we need to call zero_out_totals to clear the values for the canceled order
-        transitions :from => [:pending, :shipped], :on_transition => lambda{|order| order.reissue! }
-      end
-
-      aasm_event :cancel do
-        transitions :to => :canceled, :from => [:pending, :shipped], :on_transition => lambda{|order| order.zero_out_totals! }
-      end
-
 
       belongs_to  :user
       has_one  :person, :class_name => 'Ansuz::NFine::Person'
@@ -46,7 +22,7 @@ module Ansuz
       named_scope   :ordered, :conditions => [ 'ordered_at IS NOT NULL' ], :order => [ 'ordered_at DESC' ]
       named_scope   :unordered, :conditions => [ 'ordered_at IS NULL' ], :order => [ 'ordered_at DESC' ]
       serialize     :response
-      attr_accessor :gateway, :duplicating
+      attr_accessor :gateway
 
       def visible_status
         if( self.status == "pending" )
@@ -105,14 +81,6 @@ module Ansuz
         update_total
         save
       end
-      
-#      def proper_person
-#        if self.user
-#          self.user.person
-#        else
-#          self.person
-#        end
-#      end
 
       def gateway
         if @gateway

@@ -1,10 +1,15 @@
-.checkout_step_4
+.checkout_step_3
   - form_for :shipping_address, @shipping_address, :url => { } do |f|
+    = form_field "First Name:<span class='required'>*</span>", f.text_field(:first_name)
+    = form_field "Last Name:<span class='required'>*</span>",  f.text_field(:last_name)
+    = form_field "Email Address:<span class='required'>*</span>", f.text_field(:email)
+    = form_field "Phone Number:<span class='required'>*</span>", f.text_field(:phone_number)
+    = form_field "Extension: ",    f.text_field(:extension)
     = form_field("address 1:<span class='required'>*</span>", f.text_field(:line1))
     = form_field("address 2:", f.text_field(:line2))
     = form_field("city:<span class='required'>*</span>",  f.text_field(:city))
     = form_field("state / province:<span class='required'>*</span>", f.text_field(:state_province))
     = form_field("zip / postal code:<span class='required'>*</span>",   f.text_field(:zip_postal))
     = form_field("country:<span class='required'>*</span>",    f.text_field(:country))
-    = hidden_field_tag(:step, 5)
-    = image_submit_tag famfamfam_icon_path('basket_go')
+    = hidden_field_tag(:step, 4)
+    = submit_tag 'Continue'
