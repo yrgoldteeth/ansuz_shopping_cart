@@ -25,5 +25,3 @@ class CreateAddresses < ActiveRecord::Migration
     drop_table :addresses
   end
 end
-
-

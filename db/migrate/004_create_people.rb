@@ -1,6 +1,5 @@
-class CreatePeopleAndDropCartUserInformation < ActiveRecord::Migration
+class CreatePeople < ActiveRecord::Migration
   def self.up
-    drop_table :cart_user_informations
     create_table :people do |t|
       t.string  "first_name"
       t.string  "last_name"
@@ -22,6 +21,4 @@ class CreatePeopleAndDropCartUserInformation < ActiveRecord::Migration
     drop_table :people
   end
 end
-
-
 
