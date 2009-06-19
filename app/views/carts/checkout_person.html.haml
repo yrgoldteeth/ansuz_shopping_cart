@@ -1,0 +1,9 @@
+.checkout_step_2
+  - form_for :person, @person, :url => { } do |f|
+    = form_field "First Name:<span class='required'>*</span>", f.text_field(:first_name)
+    = form_field "Last Name:<span class='required'>*</span>",  f.text_field(:last_name)
+    = form_field "Email Address:<span class='required'>*</span>", f.text_field(:email)
+    = form_field "Phone Number:<span class='required'>*</span>", f.text_field(:phone_number)
+    = form_field "Extension: ",    f.text_field(:extension)
+    = hidden_field_tag(:step, 3)
+    = image_submit_tag famfamfam_icon_path('basket_go')

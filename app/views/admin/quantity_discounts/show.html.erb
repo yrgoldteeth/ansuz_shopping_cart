@@ -1,0 +1,23 @@
+<p>
+<b>Product Name:</b>
+<%=h @quantity_discount.product.name %>
+</p>
+<p>
+<b>Unit Price:</b>
+<%=h @quantity_discount.product.price %>
+</p>
+<p>
+<b>Discount Price:</b>
+<%=h @quantity_discount.price %>
+</p>
+<p>
+<b>Minimum Quantity:</b>
+<%=h @quantity_discount.low_quantity %>
+</p>
+<p>
+<b>Maximum Quantity:</b>
+<%=h @quantity_discount.high_quantity %>
+</p>
+<p>
+<%= link_to 'Edit Quantity Discount', edit_admin_product_quantity_discount_path(@quantity_discount.product_id) %> 
+</p>

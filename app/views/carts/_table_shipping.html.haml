@@ -1,0 +1,14 @@
+- include_actions = true if !local_assigns.include?(:include_actions) 
+%table.cart
+  %thead
+    %th IMAGE
+    %th DESCRIPTION
+    %th.number PRICE 
+    %th.number QTY 
+    %th.number SUBTOTAL
+    %th
+  %tbody
+    - cart.line_items.each do |line_item|
+      - do_include_actions = line_item.special? ? false : include_actions
+      = row_for_line_item(line_item, :include_actions => do_include_actions, :redirect_path => request.request_uri + "?step=#{@step}&skip_update=true" )
+.clear

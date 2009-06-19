@@ -1,0 +1,62 @@
+<div class="price-list-container">
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Quantity</th>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cart.line_items.each do |li| %>
+      <tr>
+        <td>
+          <%- form_tag cart_path, :method => :put do %>
+            <%= text_field_tag('quantity[]', li.quantity, :size => 3) %>
+          </td>
+          <td>
+            <%= hidden_field_tag('quantity_line_item_id[]', li.id) %>
+            <%= hidden_field_tag 'form_action', 'Update Quantity' %>
+            <%= submit_tag 'Update Quantity' %>
+          <% end %>
+        </td>
+        <td><%= li.product.category.name %></td>
+        <td><%= li.product.name %></td>
+        <td><%= li.amount %></td>
+        <td>
+          <%- form_tag cart_path, :method => :put do %>
+            <%= hidden_field_tag 'form_action', 'Remove Selected' %>
+            <%= hidden_field_tag("select_#{li.id}") %>
+            <%= submit_tag 'Remove' %>
+          <%- end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Subtotal</td>
+      <td><%= @cart.subtotal %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>TOTAL</td>
+      <td><%= @cart.total %></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<%- form_tag 'carts/checkout', :method => :put do %>
+  <%= hidden_field_tag(:step, 2) %>
+  <%= submit_tag 'Checkout' %>
+<% end %>

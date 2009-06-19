@@ -1,0 +1,19 @@
+<%= @product.category.name %><br />
+<%= @product.name %><br />
+<%= @product.unit_price_quantity_range %>
+<%= @product.price %><br />
+
+<% if @product.quantity_discounts && !@product.quantity_discounts.empty? %>
+  <% @product.quantity_discounts.each do |quantity_discount| %>
+    <%= quantity_discount.quantity_range %>
+    <%= quantity_discount.price %><br />
+  <% end %>
+<% end %>
+<% form_for :product, @product, :url => {:controller => 'cart', :action => 'add' } do |f| %>
+  <%= f.label 'Quantity' %>
+  <%= f.text_field :qty, :size => 3 %><br />
+  <%= f.label 'Details' %>
+  <%= f.text_field :details %><br />
+  <%= f.hidden_field :id %>
+  <%= submit_tag 'Add' %>
+<% end %>

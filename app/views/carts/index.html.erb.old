@@ -1,0 +1,43 @@
+<h2>My Cart</h2>
+<div class="price-list-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% form_tag('/carts') %>
+      <% @cart.line_items.each do |li| %>
+        <tr>
+          <td><%= li.product.category.name %></td>
+          <td><%= li.product.name %></td>
+          <td><%= text_field_tag('quantity', li.quantity, :size => 3) %></td>
+          <td><%= li.amount %></td>
+        <td><%- form_tag '/carts/update', :method => :put do %><%= hidden_field_tag 'form_action', 'Remove Selected' %><%= hidden_field_tag 'line_item_id[]', li.id %><%= submit_tag 'Remove' %><%- end %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Subtotal</td>
+        <td><%= @cart.subtotal %></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>TOTAL</td>
+        <td><%= @cart.total %></td>
+      </tr>
+    </tbody>
+  </table>
+  <% form_tag '/carts/checkout' do -%>
+    <%= submit_tag ('Check Out') %>
+  <% end -%>
+</div>

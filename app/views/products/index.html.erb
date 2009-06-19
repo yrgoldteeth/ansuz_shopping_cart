@@ -1,0 +1,18 @@
+<div class="price-list-container">
+  <%= current_user %>
+  <% @categories.each do |category| %>
+    <h2><%= category.name %></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <% category.products.each do |product| %>
+        <tr>
+          <td> <%=link_to product.name, product_path(product) %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,8 @@
+<%= title "Add a New Product" %>
+<% form_for :product, :html => { :multipart => true }, :url => admin_products_path do |f| %>
+<% content_for :sidebar do -%>
+  <%= render :partial => 'admin/layouts/product_sidebar' -%>
+<% end -%>
+  <%= render :partial =>'/admin/products/form', :locals => {:f => f} -%>
+  <%= submit_tag("Create Product") -%> or <%= link_to 'Cancel', admin_products_path %>
+<% end %>

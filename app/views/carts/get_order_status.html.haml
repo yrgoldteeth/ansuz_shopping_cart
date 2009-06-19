@@ -1,0 +1,51 @@
+%h2
+  Order #
+  = @order.invoice_number
+%h3
+  Status: 
+  = @order.status
+- subtext = []
+- if @order.shipped? && !@order.tracking_number.blank?
+  - subtext << "Shipping Carrier: " + @order.ship_carrier unless @order.ship_carrier.blank?
+  - subtext << "Tracking Number: " + link_to(@order.tracking_number, "http://www.google.com/search?q=#{@order.tracking_number}")
+- if @order.shipped? && @order.shipped_on
+  - subtext << "Shipped on: #{@order.shipped_on.to_s(:db)}"
+- unless subtext.blank?
+  %h4= subtext.join(" | ")
+
+- shipping_address = @order.shipping_address
+- billing_address = @order.billing_address
+.clear
+.top_addresses
+  .span-7.address-block.module
+    %h5.shop-heading SHIPPING ADDRESS
+    .solid-divider
+    %span.internal-height
+      - if shipping_address
+        = render :partial => 'shared/address', :object => shipping_address
+  .span-7.address-block.module
+    %h5.shop-heading BILLING ADDRESS
+    .solid-divider
+    %span.internal-height
+      - if billing_address
+        = render :partial => 'shared/address', :object => billing_address
+.clear
+
+%table.subdued.get-status
+  %thead
+    %th IMAGE
+    %th DESCRIPTION
+    %th.number PRICE 
+    %th.number QTY 
+    %th.number SUBTOTAL
+  %tbody
+    - @order.line_items.each do |line_item|
+      = row_for_line_item(line_item, :include_actions => false)
+.summary
+  - %w(subtotal shipping_rate rush_rate sales_tax total).each do |field|
+    - value = @order.send(field)
+    - if value
+      %p
+        %b= field.humanize + ":"
+        = number_to_currency(value)
+.clear

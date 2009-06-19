@@ -1,0 +1,33 @@
+<div class="price-list-container">
+  <%= current_user %>
+  <% @categories.each do |category| %>
+    <h2><%= category.name %></h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Quantity</th>
+          <th>Details</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <% category.products.each do |product| %>
+        <tr>
+          <td> <%= product.unit_price_quantity_range %></td>
+          <td> <%=link_to product.name, product_path(product) %></td>
+          <td><%= number_to_currency(product.price) %> Each</td>
+        </tr>
+        <% if product.quantity_discounts && !product.quantity_discounts.empty? %>
+          <% product.quantity_discounts.each do |quantity_discount| %>
+            <tr>
+              <td><%= quantity_discount.quantity_range %></td>
+              <td> <%= product.name %></td>
+              <td><%= number_to_currency(quantity_discount.price) %> Each</td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+    </table>
+      This is where add to cart and quantity field will be.
+      <br /><br />
+  <% end %>
+</div>

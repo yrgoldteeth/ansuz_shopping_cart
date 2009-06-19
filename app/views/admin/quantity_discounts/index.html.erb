@@ -1,0 +1,29 @@
+<%= title "Quantity Discounts for Product: #{@product.name}" -%>
+<% content_for :sidebar do -%>
+  <%= link_to "Add Quantity Discount for Product: #{@product.name}", new_admin_product_quantity_discount_path(@product), :class => 'button icon add' -%>
+<% end -%>
+<div class='fullwidth'>
+  <table class='subdued'>
+    <thead>
+      <tr>
+        <th>Quantity Range</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for quantity_discount in @quantity_discounts %>
+        <tr class='<%= cycle('odd','even') -%>'>
+          <td><%= quantity_discount.quantity_range %></td>
+          <td><%= number_to_currency(quantity_discount.price) %></td>
+          <td>
+            <ul class='admin_actions'>
+              <li><%= link_to famfamfam_icon("pencil"), edit_admin_product_quantity_discount_path(quantity_discount.product_id, quantity_discount) -%></li>
+              <li><%= link_to famfamfam_icon("delete"), admin_product_quantity_discount_path(quantity_discount.product_id, quantity_discount), :confirm => 'Are you sure you want to delete this quantity discount?', :method => :delete -%></li>
+            </ul>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

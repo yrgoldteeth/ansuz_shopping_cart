@@ -1,0 +1,12 @@
+%br
+%h2.cart-head Your Shopping Cart
+#cart
+  - if @cart.line_items.any?
+    = render :partial => 'table', :locals => { :cart => @cart }
+  - else
+    %p
+      Your cart is currently empty.
+- form_tag 'carts/checkout', :method => :put do
+  = hidden_field_tag(:step, 2)
+  = submit_tag 'Checkout'
+.clear

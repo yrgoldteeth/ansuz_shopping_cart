@@ -1,0 +1,12 @@
+= form_field "First Name:<span class='required'>*</span>", f.text_field(:first_name)
+= form_field "Last Name:<span class='required'>*</span>",  f.text_field(:last_name)
+= form_field "Company Name:",  f.text_field(:company_name) + " (optional)"
+= form_field("Address 1:<span class='required'>*</span>",  f.text_field(:line1))
+= form_field("Address 2: ",                                f.text_field(:line2))
+= form_field("City:<span class='required'>*</span>",       f.text_field(:city))
+= form_field("State / Province:<span class='required'>*</span>",   f.text_field(:state_province))
+= form_field("Zip / Postal Code:<span class='required'>*</span>",     f.text_field(:zip_postal))
+= form_field("Country:<span class='required'>*</span>",    f.text_field(:country))
+= form_field "Email Address:<span class='required'>*</span>", f.text_field(:email)
+= form_field "Phone Number:<span class='required'>*</span>", f.text_field(:phone_number)
+= form_field "Extension: ",    f.text_field(:extension)

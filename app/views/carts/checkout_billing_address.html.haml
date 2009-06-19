@@ -1,0 +1,12 @@
+= render :partial => 'checkout_header'
+%br
+.checkout_step_2
+  - form_for :address, @address, :url => { } do |f|
+    %h4 Billing Address
+    %p
+      To view your final total, please submit a Billing Address.
+    = error_messages_for('address')
+    = render :partial => "billing_address_form", :locals => {:f => f}
+    = hidden_field_tag(:step, 3)
+    .bottom-billing
+      = image_submit_tag 'continue-checkout.png', :class => 'fright custom-buttons'

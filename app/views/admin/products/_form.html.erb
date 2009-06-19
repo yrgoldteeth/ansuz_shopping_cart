@@ -1,0 +1,7 @@
+<div class='fullwidth'>
+  <%= form_heading "Product Name", f.text_field(:name) -%>
+  <%= form_heading "Unit Price", f.text_field(:price) -%>
+  <%= form_heading "Description", f.text_field(:description) -%>
+  <%= form_heading "Attach Image", f.file_field(:image) -%>
+  <%= form_heading "Category", f.collection_select(:category_id,@categories,'id','name') -%>
+</div>

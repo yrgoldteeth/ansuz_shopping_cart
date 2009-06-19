@@ -1,0 +1,11 @@
+%td
+%td.quantity
+  = line_item.quantity
+%td
+  = line_item.product.category.name
+%td
+  = line_item.product.name
+%td
+  = number_to_currency(line_item.amount)
+%td
+%td

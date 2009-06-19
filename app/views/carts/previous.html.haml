@@ -1,0 +1,5 @@
+#previous_cart
+  %h1.heading
+    Previous Cart: #
+    = @cart.id
+  = render :partial => 'table', :locals => { :cart => @cart, :include_actions => false }

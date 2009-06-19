@@ -1,0 +1,12 @@
+#ordered_carts
+  %h1.heading Previous Orders
+  %table#previous_orders.subdued
+    %thead
+      %tr
+        %th ID
+        %th Ordered At
+    %tbody
+      - @carts.each do |cart|
+        %tr
+          %td= cart.id
+          %td= link_to cart.ordered_at.to_s(:short), previous_cart_url(cart)

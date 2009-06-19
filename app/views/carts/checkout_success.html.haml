@@ -1,0 +1,83 @@
+= stylesheet_link_tag "blueprint/success.css", :media => "print"
+= render :partial => 'checkout_header'
+- shipping_address = @cart.shipping_address
+- billing_address = @cart.billing_address
+%h2.conf-header Thank you for ordering from Sport Graphics.
+%p.print-message 
+  Please print this page for your records. An email confirmation will be sent to 
+  - if shipping_address
+    = shipping_address.email
+#summary
+  #cart
+    %h3.cart-head
+      YOUR ORDER NUMBER IS
+      = " ##{@cart.order_number}"
+    - if @cart.line_items.any?
+      .clear
+      %table.cart
+        %thead
+          %tr
+            %th
+              SHIPPING ADDRESS
+              
+            %th
+              BILLING ADDRESS
+            %th
+              PAYMENT INFO
+        %tbody
+          %tr
+            %td
+              - if shipping_address
+                = render :partial => 'shared/address', :object => shipping_address
+            %td
+              - if billing_address
+                = render :partial => 'shared/address', :object => billing_address
+            %td
+              = @active_merchant_credit_card.type.capitalize
+              %br
+              xxxx xxxx xxxx
+              = @active_merchant_credit_card.number[-4..-1]
+              %br
+              = "#{@active_merchant_credit_card.month}/#{@active_merchant_credit_card.year}"
+              %br
+      .clear
+      #summary
+        #cart.confirm
+          %h2.cart-head
+            ORDER SUMMARY
+          - if @cart.line_items.any?
+            = render :partial => 'table2', :locals => { :cart => @cart }
+          - else
+            %p
+              Your cart is currently empty.  
+      %h3.cart-head
+        SHIPPING METHOD
+      %table.cart
+        %tbody
+          %tr
+            %td{ :rowspan => '2', :class => 'info-data'}
+              %h4.style-label
+                Shipping To:
+              %h5
+                = @cart.shipping_address.country
+              %br.clear
+              %h4.style-label
+                Method:
+              %ul.shipping-select
+                %li
+                  %span
+                    = Cart::SHIPPING_LOOKUP[@cart.shipping_method]
+                  %br.clear
+          %tr
+            %td.shipping-sub{ :rowspan => 2 }
+              Shipping
+              #shipping-rate
+                = number_to_currency @cart.shipping_rate
+      .shipping-grand
+        GRAND TOTAL
+        #grand-total
+          = number_to_currency @cart.total
+      .clear
+    - else
+      %p
+        Your cart is currently empty.

@@ -1,0 +1,8 @@
+<%= title "Edit Category" %>
+<% content_for :sidebar do -%>
+  <%= render :partial => 'admin/layouts/product_sidebar' -%>
+<% end -%>
+<% form_for :category, :url => admin_category_path(@category), :html => {:method => :put, :multipart => true } do |f| %>
+  <%= render :partial =>'/admin/categories/form', :locals => {:f => f} -%>
+  <%= submit_tag("Update Category") -%> or <%= link_to 'Cancel', admin_categories_path %>
+<% end %>

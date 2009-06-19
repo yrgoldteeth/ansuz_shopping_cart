@@ -1,0 +1,27 @@
+%table.cart
+  %thead
+    %th
+    %th Quantity
+    %th Category
+    %th Name 
+    %th Price
+    %th
+      %tbody
+        %tr
+          - cart.line_items.each do |line_item|
+            = render :partial => 'line_item2', :locals => { :line_item => line_item }
+      %tfoot
+        %tr
+          %td
+          %td
+          %td
+          %td Subtoal
+          %td 
+            = number_to_currency(cart.subtotal)
+        %tr
+          %td
+          %td
+          %td
+          %td TOTAL
+          %td 
+            = number_to_currency(cart.total)

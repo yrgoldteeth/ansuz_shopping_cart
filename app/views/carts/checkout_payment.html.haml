@@ -1,0 +1,57 @@
+.checkout_step_3
+  %h4 Payment Information
+  .sub-head
+    %h5
+      CREDIT CARD BILLING ADDRESS
+    %h5
+      COUPON OR PROMOTIONAL CODE
+    .clear
+  .address-block
+    .checkout_transition_2
+    - billing_address = @cart.billing_address
+    %span.internal-height
+      = render :partial => 'address', :object => billing_address
+      .change_info
+        = link_to "Change Billing Address", { :controller => 'carts', :action => 'checkout', :step => 3 }
+  .clear
+  .sub-head
+    %h5
+      ENTER A CREDIT CARD
+    .clear
+  = error_messages_for :active_merchant_credit_card
+  = error_messages_for :cart
+  - form_for :billing, @billing_address, :url => { } do |f|
+    - fields_for :active_merchant_credit_card, @active_merchant_credit_card do |c|
+      %span.credit-info
+        %label{ :for => 'CREDIT_CARD_TYPE'}
+          Credit Card Type
+        %br.clear
+        .credit-select
+          = c.radio_button(:type, "visa", :selected => (params[:active_merchant_credit_card]['type'] == "visa"))
+          = image_tag("visa_logo.png")
+          = c.radio_button(:type, "discover", :selected => (params[:active_merchant_credit_card]['type'] == "discover"))
+          = image_tag("discover_logo.png")
+          = c.radio_button(:type, "master", :selected => (params[:active_merchant_credit_card]['type'] == "master"))
+          = image_tag("mastercard_logo.png")
+          = c.radio_button(:type, "american_express", :selected => (params[:active_merchant_credit_card]['type'] == "american_express"))
+          = image_tag("amex_logo.png")
+        %label Card Number
+        %label.input-middle Expiration Date
+        %label Security Code
+        %br
+        %span.input-length
+          = c.text_field(:number, :maxlength => 16)
+        %span.input-middle
+          = c.select(:month, Ansuz::NFine::Cart::MONTHS) + c.select(:year, Ansuz::NFine::Cart::YEARS)
+        %span.input-length
+          = c.text_field(:verification_value, :maxlength => 4, :class => 'smallfield text')
+          %span.whats-this
+            %a{ :href => "/images/credit-card.png", :id => 'whatisthis'}
+              What is this?
+        %br.clear
+        %br
+    .bottom-billing
+      = hidden_field_tag(:step, 5)
+      = image_submit_tag 'continue-checkout.png', :class => 'fright custom-buttons'
+      %br.clear
+.clear

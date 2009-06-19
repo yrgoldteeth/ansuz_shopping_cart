@@ -1,0 +1,18 @@
+.top_addresses
+  .span-4
+    %h3.checkout-header
+      Check Out
+  .span-3{ :class => (@step < 3 ? 'active' : '') }
+    address 
+  .span-6{ :class => (@step == 3 ? 'active' : '') }
+    rush services/shipping
+  .span-3{ :class => (@step == 4 ? 'active' : '') }
+    payment
+  .span-3{ :class => (@step == 5 ? 'active' : '') }
+    confirm
+  .span-3{ :class => (@step > 5 ? 'active' : '') }
+    success
+%br
+  - shipping_address = @cart.shipping_address
+  - billing_address = @cart.billing_address
+.clear
