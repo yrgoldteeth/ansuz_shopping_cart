@@ -1,17 +1,5 @@
-AnsuzProductManager
+AnsuzShoppingCart
 ===================
-This is a product management plugin for Ansuz.  
-
-Updated 10 June 2009
-
-Installation instructions on ansuz_core
-
-1.  After finishing the installation of ansuz_core, enter this address into your browser after the site root:
-    /admin/ansuz_plugin_installers/install?name=ansuz_product_manager&repository_url=git://github.com/yrgoldteeth/ansuz_product_manager.git
-
-2.  Next, enter this address into your browser after the site root:
-    /admin/ansuz_plugin_installers/enable?=ansuz_product_manager
-
-3.  Run rake db:migrate:plugins
-
+This plugin is to use in connection with ansuz_product_manager, the admin backend for this shopping cart.
+Updated 19 June 2009
 =================

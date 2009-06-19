@@ -1,8 +1,0 @@
-<%= title "Add New Category" %>
-<% content_for :sidebar do -%>
-  <%= render :partial => 'admin/layouts/product_sidebar' -%>
-<% end -%>
-<% form_for :category, :url => admin_categories_path do |f| %>
-  <%= render :partial =>'/admin/categories/form', :locals => {:f => f} -%>
-  <%= submit_tag("Create New Category") -%> or <%= link_to 'Cancel', admin_categories_path %>
-<% end %>

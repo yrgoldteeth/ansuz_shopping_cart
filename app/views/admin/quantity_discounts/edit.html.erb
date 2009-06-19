@@ -1,5 +1,0 @@
-<%= title "Edit Quantity Discount for Product: #{@product.name}" -%>
-<% form_for :quantity_discount, :url => admin_product_quantity_discount_path, :html => {:method => 'put'} do |f| %>
-  <%= render :partial =>'/admin/quantity_discounts/form', :locals => {:f => f} -%>
-  <%= submit_tag("Update Quantity Discount") -%> or <%= link_to 'Cancel', admin_products_path %>
-<% end %>

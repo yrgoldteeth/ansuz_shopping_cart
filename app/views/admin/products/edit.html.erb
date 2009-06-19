@@ -1,8 +1,0 @@
-<%= title "Edit Product" %>
-<% content_for :sidebar do -%>
-  <%= render :partial => 'admin/layouts/product_sidebar' -%>
-<% end -%>
-<% form_for :product, :url => admin_product_path(@product), :html => {:method => :put, :multipart => true } do |f| %>
-  <%= render :partial =>'/admin/products/form', :locals => {:f => f} -%>
-  <%= submit_tag("Update Product") -%> or <%= link_to 'Cancel', admin_products_path %>
-<% end %>
